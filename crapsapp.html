@@ -1,0 +1,255 @@
+﻿<!-- Author: Christopher Anzalone -->
+<!-- Project: Craps App -->
+<!-- File: crapsapp.html-->
+
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Chris' Game of Craps</title>
+
+    <style type="text/css">
+        table
+        {
+            text-align: right;
+        }
+        body
+        {
+            font-family: arial, sans-serif;
+            background-image: url('wt-grad.jpg');
+            background-color: #FFFFFF;
+            background-repeat: no-repeat;
+            background-position: center center;   
+        }
+        div.red
+        {
+            color: red;
+        }
+        div.black
+        {
+            color: Black;
+        }
+        fieldset
+        {
+            border: 1px solid #000000;
+            width: 17em;
+            background-image: url('dicebw.png');
+            background-repeat: no-repeat;
+            background-position: right top;
+            background-color: #FFFFFF;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 300px;
+            margin-bottom: 350px;
+        }
+        legend
+        {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            font-weight: bold;
+        }
+        .playbutton input
+        {
+            border: 1px solid #000000;
+            background: #000000;
+            color: #FFFFFF;
+        }
+        td 
+        {   
+            text-transform: uppercase;
+            font-size:small;
+        }
+        
+    </style>
+
+    <script type="text/javascript">
+        <!--
+        // variables used to test the state of the game
+        var WON = 0;
+        var LOST = 1;
+        var CONTINUE_ROLLING = 2;
+
+        // other variables used in program
+        var firstRoll = true; // true if current roll is first
+        var sumOfDice = 0; // sum of the dice
+        var myPoint = 0; // point if no win/loss on first roll
+        var gameStatus = CONTINUE_ROLLING; // game not over yet
+
+        var picDie1 = [, "d-b1", "d-b2", "d-b3", "d-b4", "d-b5", "d-b6"];
+        var picDie2 = [, "d-r1", "d-r2", "d-r3", "d-r4", "d-r5", "d-r6"];
+
+        var wonOutput = 0;
+        var lostOutput = 0;
+
+        // process one roll of the dice
+        function play()
+        {
+            // get the point field on the page
+            var point = document.getElementById( "pointfield" );
+
+            //get win/lose count to the page
+            var winLosePrint = document.getElementById("winlosestatus");
+
+            // get the status div on the page
+            var statusDiv = document.getElementById( "status" );
+            if ( firstRoll ) // first roll of the dice
+            {
+                sumOfDice = rollDice();
+
+                switch ( sumOfDice )
+                {
+                case 7:case 11: // win on first roll
+                    gameStatus = WON;
+                    // clear point field
+                    point.innerHTML = "";
+                    wonOutput++;  //increment count for # of wins
+                    break;
+                case 2: case 3: case 12: // lose on first roll
+                    gameStatus = LOST;
+                    // clear point field
+                    point.innerHTML = "";
+                    lostOutput++;  //increment count for # of losses
+                    break;
+                default: // remember point
+                    gameStatus = CONTINUE_ROLLING;
+                    myPoint = sumOfDice;
+                    point.innerHTML = myPoint;
+                    firstRoll = false;
+                } // end switch
+            } // end if
+            else
+            {
+                sumOfDice = rollDice();
+
+                if (sumOfDice == myPoint) // win by making point
+                {
+                    gameStatus = WON;
+                    wonOutput++;  //increment count for # of wins
+                }
+                else
+                    if (sumOfDice == 7) // lose by rolling 7
+                    {
+                        gameStatus = LOST;
+                        lostOutput++;  //increment count for # of losses
+                    }
+            } // end else
+
+            if (gameStatus == CONTINUE_ROLLING) 
+            {
+                statusDiv.innerHTML = "Roll again";
+
+                //display here
+                winLosePrint.innerHTML = "Games won " + wonOutput + "<br />" 
+                + "Games lost " + lostOutput; 
+            }
+            else 
+            {
+
+                if (gameStatus == WON) {
+                    statusDiv.innerHTML = "Player wins. " +
+                    "Click Roll Dice to play again.";
+
+                    //display here
+                    winLosePrint.innerHTML = "Games won " + wonOutput + "<br />"
+                    + "Games lost " + lostOutput; 
+                }
+                else {
+                    statusDiv.innerHTML = "Player loses. " +
+                    "Click Roll Dice to play again.";
+
+                    //display here
+                    winLosePrint.innerHTML = "Games won " + wonOutput + "<br />"
+                    + "Games lost " + lostOutput; 
+                }
+
+                firstRoll = true;
+            }  // end else
+        } // end function play
+
+        // roll the dice
+        function rollDice()
+        {
+            var die1;
+            var die2;
+            var workSum;
+
+            die1 = Math.floor( 1 + Math.random() * 6 );
+            die2 = Math.floor( 1 + Math.random() * 6 );
+            workSum = die1 + die2;
+
+            document.getElementById("die1field").src = picDie1[die1] + ".jpg";
+            document.getElementById("die2field").src = picDie2[die2] + ".jpg";
+            document.getElementById("sumfield").innerHTML = workSum;
+
+            return workSum;
+        } // end function rollDice
+        // -->
+    </script>
+</head>
+
+<body>
+    <form action="">
+    <fieldset>
+    <legend>CRAPS</legend>
+    <table>
+   <!--     <caption>
+            Craps</caption>   -->
+        <tr>
+            <td>
+                Die 1
+            </td>
+            <td>
+           <!-- <input id="die1field" type="text" />  -->
+                <img id="die1field" src = "d-r0.jpg" alt="d-r0.jpg" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Die 2
+            </td>
+            <td>
+           <!--  <input id="die2field" type="text" />   -->
+                <img id="die2field" src = "d-r0.jpg" alt="d-r0.jpg" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Sum
+            </td>
+            <td id="sumfield">
+            <!--    This is the cell for the sum  -->
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Point
+            </td>
+            <td id="pointfield">
+            <!--      This is the cell for point  -->
+            </td>
+        </tr>
+        <tr>
+            <td />
+            <td>
+                <p class="playbutton">
+                    <input type="button" value="Roll Dice" onclick="play()" />
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <div id="status" class="red">
+        Click the Roll Dice button to play
+    </div>
+
+    <div id="winlosestatus" class="black">
+        Games won 0  <br />
+        Games lost 0
+    </div>
+
+    </fieldset>
+    </form>
+</body>
+
+</html>
